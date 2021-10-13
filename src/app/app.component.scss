@@ -1,0 +1,15 @@
+.wrapper {
+    display: flex;
+    div {
+        border: 1px solid #111;
+        &.new-task {
+            width: 40%;
+            padding: 2vh 3vw 3vh 2vw;
+        }
+        &.todo-list {
+            width: 60%;
+            border-left: 0;
+            padding: 2vh 4vw 3vh 3vw;
+        }
+    }
+}

@@ -1,0 +1,5 @@
+<h1 class="title">Todo List</h1>
+<input type="text" placeholder="Search..." class="input-block">
+<ng-container *ngFor='let item of todoList'>
+    <app-task-item [task]='item'></app-task-item>
+</ng-container>
