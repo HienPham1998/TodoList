@@ -10,6 +10,6 @@ export class TaskService {
   constructor() {
   }
 
-  taskList$: Subject<ToDoList[]> = new Subject();
+  taskList$: BehaviorSubject<any> = new BehaviorSubject([]);
 }
 

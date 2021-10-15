@@ -18,7 +18,7 @@ export class TaskItemComponent implements OnInit {
 
   @Input() index = -1;
 
-  constructor(private taskService: TaskService) { }
+  constructor(private readonly taskService: TaskService) { }
 
   ngOnInit(): void {
 

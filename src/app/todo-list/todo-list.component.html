@@ -1,5 +1,5 @@
 <h1 class="title">Todo List</h1>
-<input type="text" placeholder="Search..." class="input-block" (keyup)='onSearch($event)'>
+<input type="text" placeholder="Search..." class="input-block search-input" (keyup)='onSearch($event)'>
 <ng-container *ngFor='let item of todoList; let i=index'>
     <div class="item collapse">
         <div class="item-name">

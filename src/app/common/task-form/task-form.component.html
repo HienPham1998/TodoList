@@ -1,5 +1,5 @@
 <form [formGroup]='taskForm'>
-    <input type="text" class="task-name input-block" placeholder="Add new task..." formControlName='title'>
+    <input type="text" class="input-block" placeholder="Add new task..." formControlName='title'>
     <div class="error">
         {{errMessage.title}}
     </div>
@@ -10,7 +10,7 @@
     <div class="row">
         <div class="due-date">
             <label for="">Due Date</label><br />
-            <input type="date" formControlName='dueDate' class="input-block">
+            <input type="date" formControlName='dueDate'>
             <div class="error">
                 {{errMessage.dueDate}}
             </div>

@@ -11,24 +11,19 @@ import { ToDoList } from 'src/app/todo-list/todo-list.component';
   styleUrls: ['./task-form.component.scss']
 })
 export class TaskFormComponent implements OnInit {
-  taskForm: FormGroup = new FormGroup({});
   @Input() indexEdit = -1;
+  taskForm: FormGroup = new FormGroup({});
   errMessage = {
     title: '',
     dueDate: ''
   };
-  unsubscribe$ = new Subject();
   todoList: ToDoList[] = [];
+  unsubscribe$ = new Subject();
 
-  constructor(private fb: FormBuilder, private taskService: TaskService) { }
+  constructor(private readonly fb: FormBuilder, private readonly taskService: TaskService) { }
 
   ngOnInit(): void {
     this.initForm();
-    this.getTaskList();
-  }
-
-  getTaskList() {
-    this.todoList = JSON.parse(localStorage.getItem('todoList') || '');
   }
 
   initForm() {
@@ -41,37 +36,43 @@ export class TaskFormComponent implements OnInit {
     );
   }
 
-  addTask() {
-    let control = this.taskForm.controls;
-
-    if (control.title.errors?.required) {
+  validateForm() {
+    const { title, dueDate } = this.taskForm.controls;
+    if (title.errors && title.errors.required) {
       this.errMessage.title = '*Title is required';
     }
-    if (new Date(control.dueDate.value) < new Date()) {
+
+    const currentTime = new Date().getTime();
+    console.log(new Date(dueDate.value).getTime())
+    if (currentTime < new Date(dueDate.value).getTime()) {
       this.errMessage.dueDate = '*Due date must be greater than or equal to the current date';
     }
-    if (!control.title.errors?.required && new Date(control.dueDate.value) >= new Date()) {
-      this.errMessage = {
-        title: '',
-        dueDate: ''
-      };
+    return true;
+  }
 
-      console.log(this.todoList);
+  resetError() {
+    this.errMessage = {
+      title: '',
+      dueDate: ''
+    };
+  }
 
-      this.todoList.push(this.taskForm.value);
-      this.todoList.sort((a, b) => {
+  addTask() {
+    const result: boolean = this.validateForm();
+    if (result) {
+      this.resetError();
+      const todoList: ToDoList[] = [...this.taskService.taskList$.value];
+      todoList.push(this.taskForm.value);
+      todoList.sort((a, b) => {
         return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
       });
-
-      this.taskService.taskList$.next(this.todoList);
+      this.taskService.taskList$.next(todoList);
       this.initForm();
     }
-
   }
 
   updateTask() {
-    // this.todoList.splice(this.indexEdit, 1, this.taskForm.value);
-    // this.taskService.taskList$.next(this.todoList);
+
   }
 
   ngDoCheck() {
@@ -79,6 +80,5 @@ export class TaskFormComponent implements OnInit {
       this.taskForm.patchValue(this.todoList[this.indexEdit]);
     }
   }
-
 
 }
