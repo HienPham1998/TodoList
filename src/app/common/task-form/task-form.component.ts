@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { TaskService } from 'src/app/task.service';
 import { ToDoList } from 'src/app/todo-list/todo-list.component';
 
@@ -9,18 +11,23 @@ import { ToDoList } from 'src/app/todo-list/todo-list.component';
   styleUrls: ['./task-form.component.scss']
 })
 export class TaskFormComponent implements OnInit {
-  todoList: ToDoList[] = [];
   taskForm: FormGroup = new FormGroup({});
   @Input() indexEdit = -1;
   errMessage = {
     title: '',
     dueDate: ''
   };
+  unsubscribe$ = new Subject();
+  todoList: ToDoList[] = [];
 
   constructor(private fb: FormBuilder, private taskService: TaskService) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.getTaskList();
+  }
+
+  getTaskList() {
     this.todoList = JSON.parse(localStorage.getItem('todoList') || '');
   }
 
@@ -32,12 +39,6 @@ export class TaskFormComponent implements OnInit {
       piority: [1]
     }
     );
-  }
-
-  ngDoCheck() {
-    if (this.indexEdit >= 0) {
-      this.taskForm.patchValue(this.todoList[this.indexEdit]);
-    }
   }
 
   addTask() {
@@ -54,12 +55,15 @@ export class TaskFormComponent implements OnInit {
         title: '',
         dueDate: ''
       };
+
+      console.log(this.todoList);
+
       this.todoList.push(this.taskForm.value);
       this.todoList.sort((a, b) => {
         return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
       });
 
-      this.taskService.taskList.next(this.todoList);
+      this.taskService.taskList$.next(this.todoList);
       this.initForm();
     }
 
@@ -67,7 +71,14 @@ export class TaskFormComponent implements OnInit {
 
   updateTask() {
     // this.todoList.splice(this.indexEdit, 1, this.taskForm.value);
-    // this.taskService.taskList.next(this.todoList);
+    // this.taskService.taskList$.next(this.todoList);
   }
+
+  ngDoCheck() {
+    if (this.indexEdit >= 0) {
+      this.taskForm.patchValue(this.todoList[this.indexEdit]);
+    }
+  }
+
 
 }

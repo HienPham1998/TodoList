@@ -9,6 +9,5 @@ export class AppComponent {
   constructor() { }
 
   ngOnInit() {
-    localStorage.setItem('todoList', JSON.stringify([]));
   }
 }
