@@ -1,5 +1,17 @@
 <h1 class="title">Todo List</h1>
-<input type="text" placeholder="Search..." class="input-block">
-<ng-container *ngFor='let item of todoList'>
-    <app-task-item [task]='item'></app-task-item>
+<input type="text" placeholder="Search..." class="input-block" (keyup)='onSearch($event)'>
+<ng-container *ngFor='let item of todoList; let i=index'>
+    <div class="item collapse">
+        <div class="item-name">
+            <input type="checkbox" name="title" value="">
+            <label for="title">{{item.title}}</label>
+        </div>
+        <div class="action">
+            <button class="btn detail" (click)='onCheckDetail(i)'>Detail</button>
+            <button class="btn remove" (click)='onRemove(i)'>Remove</button>
+        </div>
+    </div>
+    <div class="detail-area" *ngIf="indexEdit === i">
+        <app-task-form [indexEdit]='i'></app-task-form>
+    </div>
 </ng-container>

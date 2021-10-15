@@ -6,10 +6,10 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./new-task.component.scss']
 })
 export class NewTaskComponent implements OnInit {
-  @Input() indexEdit?: number;
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }

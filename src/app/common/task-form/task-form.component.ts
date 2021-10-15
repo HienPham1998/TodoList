@@ -11,32 +11,63 @@ import { ToDoList } from 'src/app/todo-list/todo-list.component';
 export class TaskFormComponent implements OnInit {
   todoList: ToDoList[] = [];
   taskForm: FormGroup = new FormGroup({});
-  @Input() indexEdit?: number;
+  @Input() indexEdit = -1;
+  errMessage = {
+    title: '',
+    dueDate: ''
+  };
 
-  constructor(private formBuilder: FormBuilder, private taskService: TaskService) { }
+  constructor(private fb: FormBuilder, private taskService: TaskService) { }
 
   ngOnInit(): void {
-    this.initForm(this.indexEdit);
+    this.initForm();
     this.todoList = JSON.parse(localStorage.getItem('todoList') || '');
   }
 
-  initForm(indexEdit?: number) {
-    this.taskForm = this.formBuilder.group({
-      name: this.formBuilder.control('', Validators.required),
-      description: this.formBuilder.control(''),
-      dueDate: this.formBuilder.control(new Date().toISOString().slice(0, 10)),
-      piority: this.formBuilder.control(2)
+  initForm() {
+    this.taskForm = this.fb.group({
+      title: ['', Validators.required],
+      description: [''],
+      dueDate: [new Date().toISOString().slice(0, 10)],
+      piority: [1]
     }
     );
+  }
 
-    if (indexEdit) {
-      this.taskForm.patchValue(this.todoList[indexEdit]);
+  ngDoCheck() {
+    if (this.indexEdit >= 0) {
+      this.taskForm.patchValue(this.todoList[this.indexEdit]);
     }
-
   }
 
   addTask() {
-    this.todoList.push(this.taskForm.value);
-    this.taskService.taskList.next(this.todoList);
+    let control = this.taskForm.controls;
+
+    if (control.title.errors?.required) {
+      this.errMessage.title = '*Title is required';
+    }
+    if (new Date(control.dueDate.value) < new Date()) {
+      this.errMessage.dueDate = '*Due date must be greater than or equal to the current date';
+    }
+    if (!control.title.errors?.required && new Date(control.dueDate.value) >= new Date()) {
+      this.errMessage = {
+        title: '',
+        dueDate: ''
+      };
+      this.todoList.push(this.taskForm.value);
+      this.todoList.sort((a, b) => {
+        return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+      });
+
+      this.taskService.taskList.next(this.todoList);
+      this.initForm();
+    }
+
   }
+
+  updateTask() {
+    // this.todoList.splice(this.indexEdit, 1, this.taskForm.value);
+    // this.taskService.taskList.next(this.todoList);
+  }
+
 }

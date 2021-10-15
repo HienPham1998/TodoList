@@ -1,5 +1,8 @@
 <form [formGroup]='taskForm'>
-    <input type="text" class="task-name input-block" placeholder="Add new task..." formControlName='name'>
+    <input type="text" class="task-name input-block" placeholder="Add new task..." formControlName='title'>
+    <div class="error">
+        {{errMessage.title}}
+    </div>
     <div class="description">
         <label>Description</label><br />
         <textarea name="" id="" cols="30" rows="10" formControlName='description'></textarea><br />
@@ -8,6 +11,9 @@
         <div class="due-date">
             <label for="">Due Date</label><br />
             <input type="date" formControlName='dueDate' class="input-block">
+            <div class="error">
+                {{errMessage.dueDate}}
+            </div>
         </div>
         <div class="piority">
             <label for="piority">Piority</label><br />
@@ -18,5 +24,6 @@
             </select>
         </div>
     </div>
-    <button class="add-btn" (click)='addTask()'>Add</button>
+    <button class="add-btn" (click)='addTask()' *ngIf='indexEdit < 0'>Add</button>
+    <button class="add-btn" (click)='updateTask()' *ngIf='indexEdit >= 0'>Update</button>
 </form>

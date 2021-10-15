@@ -14,6 +14,6 @@ export class TaskService {
   }
 
   taskList: BehaviorSubject<ToDoList[]> = new BehaviorSubject(this.todoList);
-
+  taskEdited: BehaviorSubject<any> = new BehaviorSubject(null);
 }
 

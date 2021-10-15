@@ -1,7 +1,7 @@
 <div class="item collapse">
     <div class="item-name">
-        <input type="checkbox" name="name" value="">
-        <label for="name">{{task.description}}</label>
+        <input type="checkbox" name="title" value="">
+        <label for="title">{{task.title}}</label>
     </div>
     <div class="action">
         <button class="btn detail">Detail</button>
@@ -9,5 +9,5 @@
     </div>
 </div>
 <div class="detail-area">
-    <app-new-task [indexEdit]='indexEdit'></app-new-task>
+    <app-task-form></app-task-form>
 </div>

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TaskService } from '../task.service';
 import { ToDoList } from '../todo-list/todo-list.component';
 
 @Component({
@@ -9,20 +10,19 @@ import { ToDoList } from '../todo-list/todo-list.component';
 export class TaskItemComponent implements OnInit {
 
   @Input() task: ToDoList = {
-    name: '',
+    title: '',
     description: '',
     dueDate: '',
     piority: ''
   };
 
-  indexEdit: number = 0;
+  @Input() index = -1;
 
-  constructor() { }
+  constructor(private taskService: TaskService) { }
 
   ngOnInit(): void {
 
-
-
   }
+
 
 }
