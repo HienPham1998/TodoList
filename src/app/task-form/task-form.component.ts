@@ -59,6 +59,7 @@ export class TaskFormComponent implements OnInit {
     const inputTime = new Date(dueDate.value);
     const condition = currentTime.getDate() <= inputTime.getDate() && currentTime.getMonth() <= inputTime.getMonth() && currentTime.getFullYear() <= inputTime.getFullYear();
     this.errMessage.dueDate = condition ? '' : MESSAGE.DUE_DATE;
+
     return this.checkError();
   }
 
@@ -69,6 +70,7 @@ export class TaskFormComponent implements OnInit {
         result = false;
       }
     });
+
     return result;
   }
 

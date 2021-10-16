@@ -20,12 +20,4 @@ export class AppComponent {
       this.taskService.taskList$.next(JSON.parse(list));
     }
   }
-
-  onClickDone() {
-
-  }
-
-  onBulkRemove() {
-
-  }
 }
