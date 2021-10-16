@@ -1,40 +1,81 @@
-.title {
-    text-align: center;
-}
+$black: #111;
+$white: #fff;
+$detail: #00bcd4;
+$remove: #db5e5e;
+$done: #007bff;
+$gray: #ccc;
 
-.item {
+.todo-list {
+  padding: 2vh 3vw 3vh 2vw;
+
+  .title {
+    text-align: center;
+  }
+
+  .item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 10px;
-    border: 1px solid #111;
+    border: 1px solid $black;
     margin-top: 15px;
-    .item-name {
-        input {
-            margin-right: 10px;
-        }
+    &__name {
+      display: flex;
+      align-items: center;
+      input {
+        margin-right: 10px;
+      }
     }
     .action {
-        .btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            margin: 0 8px;
-            &.detail {
-                background-color: #00bcd4;
-            }
-
-            &.remove {
-                background-color: #db5e5e;
-            }
+      .btn {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        color: $white;
+        margin: 0 8px;
+        min-width: 80px;
+        &.detail {
+          background-color: $detail;
         }
-    }
-}
 
-.detail-area {
+        &.remove {
+          background-color: $remove;
+        }
+      }
+    }
+  }
+
+  .detail-area {
     display: block;
     padding: 20px;
-    border: 1px solid #111;
-    border-top: 0; 
+    border: 1px solid $black;
+    border-top: 0;
+  }
+}
+
+.bulk__action {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: $gray;
+  align-items: center;
+  width: 100%;
+  border-top: 1px solid #111;
+  .action {
+    .btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      color: $white;
+      margin: 0 8px;
+      min-width: 80px;
+      &.done {
+        background-color: $done;
+      }
+
+      &.remove {
+        background-color: $remove;
+      }
+    }
+  }
 }

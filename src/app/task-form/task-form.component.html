@@ -1,0 +1,28 @@
+<form [formGroup]="taskForm">
+    <input type="text" class="input-block" placeholder="Add new task..." formControlName="title">
+    <div class="error">
+        {{errMessage.title}}
+    </div>
+    <div class="description">
+        <label for="description">Description</label><br />
+        <textarea name="" id="description" cols=" 30" rows="10" formControlName="description"></textarea><br />
+    </div>
+    <div class="row">
+        <div class="due-date">
+            <label for="duedate">Due Date</label><br />
+            <input type="date" id="duedate" formControlName="dueDate">
+            <div class="error">
+                {{errMessage.dueDate}}
+            </div>
+        </div>
+        <div class="piority">
+            <label for="piority">Piority</label><br />
+            <select name="piority" formControlName="piority">
+                <option value="0">low</option>
+                <option value="1">normal</option>
+                <option value="2">high</option>
+            </select>
+        </div>
+    </div>
+    <button class="add-btn" (click)="handleClickBtn()">{{textBtn}}</button>
+</form>

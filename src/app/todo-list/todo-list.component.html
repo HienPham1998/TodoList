@@ -1,17 +1,28 @@
-<h1 class="title">Todo List</h1>
-<input type="text" placeholder="Search..." class="input-block search-input" (keyup)='onSearch($event)'>
-<ng-container *ngFor='let item of todoList; let i=index'>
-    <div class="item collapse">
-        <div class="item-name">
-            <input type="checkbox" name="title" value="">
-            <label for="title">{{item.title}}</label>
+<div class="todo-list">
+    <h1 class="title">Todo List</h1>
+    <input type="text" placeholder="Search..." class="input-block search-input" (keyup)="onSearch($event)">
+    <ng-container *ngFor="let item of todoList; let i=index; trackBy:trackByFnc">
+        <div [@fadeInOut] class="item">
+            <div class="item__name">
+                <input type="checkbox" name="title" value="" [checked]="stateCheckbox[i]"
+                    (click)="handleClickCheckbox(i)">
+                <label for="title">{{item.title}}</label>
+            </div>
+            <div class="action">
+                <button class="btn detail" (click)="onCheckDetail(i)">Detail</button>
+                <button class="btn remove" (click)="onRemove(i)">Remove</button>
+            </div>
         </div>
-        <div class="action">
-            <button class="btn detail" (click)='onCheckDetail(i)'>Detail</button>
-            <button class="btn remove" (click)='onRemove(i)'>Remove</button>
+        <div class="detail-area" *ngIf="stateTodo[i]">
+            <app-task-form [indexEdit]="i" [isEdit]="true"></app-task-form>
         </div>
+    </ng-container>
+</div>
+
+<div class="bulk__action" *ngIf="showBulkAction">
+    <span>Bulk Action:</span>
+    <div class="action">
+        <button class="btn done" (click)="onDone()">Done</button>
+        <button class="btn remove" (click)="onRemoveToDoList()">Remove</button>
     </div>
-    <div class="detail-area" *ngIf="indexEdit === i">
-        <app-task-form [indexEdit]='i'></app-task-form>
-    </div>
-</ng-container>
+</div>
